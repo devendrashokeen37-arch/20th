@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Anshu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #38040e;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        /* Slow-motion floating hearts with smooth multidirectional drift */
+        .heart {
+            position: absolute;
+            bottom: -60px;
+            background: linear-gradient(135deg, #ff4d94 0%, #b30047 100%);
+            animation: floatUpAndDrift linear infinite;
+            pointer-events: none;
+            opacity: 0;
+            border-radius: 4px;
+        }
+
+        .heart::before,
+        .heart::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: inherit;
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            top: -50%;
+            left: 0;
+        }
+
+        .heart::after {
+            top: 0;
+            left: 50%;
+        }
+
+        @keyframes floatUpAndDrift {
+            0% {
+                transform: translateY(0) translateX(0) rotate(var(--start-rot)) scale(0.4);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.9;
+            }
+            90% {
+                opacity: 0.9;
+            }
+            100% {
+                transform: translateY(-135vh) translateX(var(--drift)) rotate(var(--end-rot)) scale(1.15);
+                opacity: 0;
+            }
+        }
+
+        .message-container {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 20px;
+            max-width: 80%;
+        }
+
+        h1 {
+            color: #38040e;
+            font-size: clamp(0.95rem, 2vw, 1.25rem);
+            font-weight: 400;
+            font-style: italic;
+            letter-spacing: 0.5px;
+            line-height: 1.6;
+            mix-blend-mode: color-dodge;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="message-container">
+        <h1>Aap itne gore kaise ho anshu?<br>Fair & Lovely lagate ho kya?</h1>
+    </div>
+
+    <script>
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+
+            const size = Math.random() * 16 + 14; 
+            heart.style.width = `${size}px`;
+            heart.style.height = `${size}px`;
+
+            heart.style.left = `${Math.random() * 100}vw`;
+
+            const driftAmount = (Math.random() - 0.5) * 160; 
+            const startRotation = (Math.random() * 60 - 30) - 45; 
+            const endRotation = startRotation + (Math.random() * 120 - 60); 
+
+            heart.style.setProperty('--drift', `${driftAmount}px`);
+            heart.style.setProperty('--start-rot', `${startRotation}deg`);
+            heart.style.setProperty('--end-rot', `${endRotation}deg`);
+
+            const luxuryShades = [
+                'linear-gradient(135deg, #ff1e6d 0%, #99003d 100%)',
+                'linear-gradient(135deg, #ff4d88 0%, #cc0052 100%)',
+                'linear-gradient(135deg, #ff70a6 0%, #e6005c 100%)',
+                'linear-gradient(135deg, #ff99bb 0%, #ff1a75 100%)'
+            ];
+            heart.style.background = luxuryShades[Math.floor(Math.random() * luxuryShades.length)];
+
+            // Super-smooth, slow glide (12 to 18 seconds)
+            const duration = Math.random() * 6 + 12; 
+            heart.style.animationDuration = `${duration}s`;
+            heart.style.animationDelay = `${Math.random() * 0.5}s`;
+
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, (duration + 2) * 1000);
+        }
+
+        // Instant safe render: Populate initial 50 hearts right on load
+        for(let i = 0; i < 50; i++) {
+            createHeart();
+        }
+
+        // Smooth ramp-up and locked density stream using safe intervals
+        let secondsElapsed = 0;
+        setInterval(() => {
+            secondsElapsed++;
+            
+            if (secondsElapsed === 1) {
+                // Phase 2: Add 100 hearts wave
+                for(let j = 0; j < 100; j++) {
+                    createHeart();
+                }
+            }
+        }, 1000);
+
+        // Continuous high-density stream keeping it packed
+        setInterval(() => {
+            if (secondsElapsed >= 2) {
+                for(let k = 0; k < 8; k++) {
+                    createHeart();
+                }
+            }
+        }, 60);
+    </script>
+</body>
+</html>
